@@ -1,0 +1,8 @@
+setup.py
+obmm/__init__.py
+obmm/__main__.py
+obmm.egg-info/PKG-INFO
+obmm.egg-info/SOURCES.txt
+obmm.egg-info/dependency_links.txt
+obmm.egg-info/entry_points.txt
+obmm.egg-info/top_level.txt
