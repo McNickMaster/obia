@@ -1,3 +1,0 @@
-[console_scripts]
-obmm = obmm.__main__:main
-

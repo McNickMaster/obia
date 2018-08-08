@@ -1,9 +1,7 @@
 import sys
 import time
 from pathlib import Path
-from yaspin import yaspin
 from pyfiglet import Figlet as figlet
-import click
 
 class bccolors:
     MAIN = '\033[93m'
@@ -13,9 +11,6 @@ class bccolors:
 
 def help():
     print('Trash')
-
-@click.command()
-@click.option('--add', '-a')
 
 def main(args=None):
 
@@ -44,54 +39,51 @@ def main(args=None):
 
 
     nameOfMenu = input(bccolors.TITLE + '>>>' + bccolors.MAIN + " Name of The Menu: ")
-    nameOfItem = input.query(bccolors.TITLE + '>>>' + bccolors.MAIN + " Name of Menu Item: ")
-    commandOfItem = input.query(bccolors.TITLE + '>>>' + bccolors.MAIN + " Item Command: ")
+    nameOfItem = input(bccolors.TITLE + '>>>' + bccolors.MAIN + " Name of Menu Item: ")
+    commandOfItem = input(bccolors.TITLE + '>>>' + bccolors.MAIN + " Item Command: ")
 
-    with yaspin(text="Creating Entry...", color="cyan") as sp:
-
-        idMenu = "id=\"" + nameOfMenu
+    idMenu = "id=\"" + nameOfMenu
 
     #------------------------------------------------------------------------------------
 
-        #create crappy string
-        #TODO find a fix?
 
-        xmlEntry = "        <item label=\"" + nameOfItem + "\"\n            <action name=\"" + typeOfItem + "\">\n                <command>\n                   "+commandOfItem+"\n               </command>\n            </action>\n        </item>\n"
+    #TODO find a way to not make this crappy string
+    xmlEntry = "        <item label=\"" + nameOfItem + "\">\n            <action name=\"" + typeOfItem + "\">\n                <command>\n                   "+commandOfItem+"\n               </command>\n            </action>\n        </item>\n"
 
-        sp.write(bccolors.ALT + "\nLooking for menu in file...")
+    print(bccolors.ALT + "\nLooking for menu in file...")
 
-        #open file for reading and get contents
-        with open(configDir, "r") as sf:
-                for line in sf:
-                    if idMenu in line:
-                        foundMenu = True
-                        sp.write("Menu found!")
+    #open file for reading and get contents
+    with open(configDir, "r") as sf:
+        for line in sf:
+            if idMenu in line:
+                foundMenu = True
+                print("Menu found!")
 
-        with open(configDir, "r") as f:
-                content = f.readlines()
-                f.close()
-
-
-        #TODO remove this if statement
-        if (foundMenu == False):
-            sp.write("Error: Menu " + nameOfMenu + " not found")
-            exit()
-
-        #get index
-        index = [x for x in range(len(content)) if nameOfMenu in content[x].lower()]
-
-        sp.write("Adding to menu.xml...")
-
-        #insert text into file at index plus 1
-        content.insert(index[0] + 1, xmlEntry)
-
-        #write
-        f = open(configDir, "w")
-        content = "".join(content)
-        f.write(content)
+    with open(configDir, "r") as f:
+        content = f.readlines()
         f.close()
 
-        sp.write("Done!")
+
+    #TODO remove this if statement
+    if (foundMenu == False):
+        print("Error: Menu " + nameOfMenu + " not found")
+        exit()
+
+    #get index
+    index = [x for x in range(len(content)) if nameOfMenu in content[x].lower()]
+
+    print("Adding to menu.xml...")
+
+    #insert text into file at index plus 1
+    content.insert(index[0] + 1, xmlEntry)
+
+    #write
+    f = open(configDir, "w")
+    content = "".join(content)
+    f.write(content)
+    f.close()
+
+    print("Done!")
 
 if __name__ == "__main__":
     main()
