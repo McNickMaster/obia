@@ -1,0 +1,3 @@
+[console_scripts]
+obia = obia.__main__:main
+
